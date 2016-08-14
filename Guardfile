@@ -101,3 +101,67 @@ guard :rspec, cmd: "bundle exec rspec" do
     Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
   end
 end
+
+cucumber_options = {
+  # Below are examples overriding defaults
+
+  # cmd: 'bin/cucumber',
+  # cmd_additional_args: '--profile guard',
+
+  # all_after_pass: false,
+  # all_on_start: false,
+  # keep_failed: false,
+  # feature_sets: ['features/frontend', 'features/experimental'],
+
+  # run_all: { cmd_additional_args: '--profile guard_all' },
+  # focus_on: { 'wip' }, # @wip
+  # notification: false
+}
+
+guard "cucumber", cucumber_options do
+  watch(%r{^features/.+\.feature$})
+  watch(%r{^features/support/.+$}) { "features" }
+
+  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) do |m|
+    Dir[File.join("**/#{m[1]}.feature")][0] || "features"
+  end
+end
+
+guard 'livereload' do
+  extensions = {
+    css: :css,
+    scss: :css,
+    sass: :css,
+    js: :js,
+    coffee: :js,
+    html: :html,
+    png: :png,
+    gif: :gif,
+    jpg: :jpg,
+    jpeg: :jpeg,
+    # less: :less, # uncomment if you want LESS stylesheets done in browser
+  }
+
+  rails_view_exts = %w(erb haml slim)
+
+  # file types LiveReload may optimize refresh for
+  compiled_exts = extensions.values.uniq
+  watch(%r{public/.+\.(#{compiled_exts * '|'})})
+
+  extensions.each do |ext, type|
+    watch(%r{
+          (?:app|vendor)
+          (?:/assets/\w+/(?<path>[^.]+) # path+base without extension
+           (?<ext>\.#{ext})) # matching extension (must be first encountered)
+          (?:\.\w+|$) # other extensions
+          }x) do |m|
+      path = m[1]
+      "/assets/#{path}.#{type}"
+    end
+  end
+
+  # file needing a full reload of the page anyway
+  watch(%r{app/views/.+\.(#{rails_view_exts * '|'})$})
+  watch(%r{app/helpers/.+\.rb})
+  watch(%r{config/locales/.+\.yml})
+end
