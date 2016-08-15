@@ -1,0 +1,8 @@
+- [{ path: categories_path, text: 'Categories' }, \
+   { path: products_path, text: 'Products' } \
+  ].each do |link|
+    .column
+      = link_to link[:path] do
+        .jumbotron
+          .main-block
+            = link[:text]

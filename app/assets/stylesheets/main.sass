@@ -24,13 +24,21 @@ img
   @extend .btn-primary
   @extend .btn-lg
 
+.jumbotron
+  @extend .jumbotron
+  @extend .h1
+  height: 400px
+  &:hover
+    background-color: darken(#eeeeee, 5%)
+
+.main-block
+  padding-top: 130px
+
 main
   @extend .container
-  background-color: #eee
-  padding-bottom: 80px
+  padding: 80px 0
   width: 100%
 
 section
   @extend .row
   margin-top: 20px
-
