@@ -1,0 +1,26 @@
+.col-md-10
+  table class='table'
+    thead
+      tr
+        th #
+        th Name
+        th Options
+        th Products count
+        th Actions
+    tbody
+      - @categories.each_with_index do |category, index|
+        tr
+          th scope='row' = index
+          th = link_to category.name, category
+          th Options
+          th = category.products_count
+          th.category-actions
+            li
+              = link_to category, method: :edit do
+                = image_tag 'edit.png'
+            li
+              = link_to category, method: :delete
+                = image_tag 'delete.png'
+.col-md-2.text-center
+  = link_to new_category_path do
+    = image_tag 'add.png', class: 'new-category'
