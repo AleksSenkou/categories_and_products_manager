@@ -1,48 +1,56 @@
-Categories And Products Manager
-================
+### Main part of the task:
+```Ruby
+class Product < ActiveRecord::Base
+  belongs_to :category, counter_cache: true
+  has_many :fields, through: :category
+  serialize :properties, Hash
+end
 
-This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
-provided by the [RailsApps Project](http://railsapps.github.io/).
+class Category < ActiveRecord::Base
+  has_many :products, dependent: :nullify
+  has_many :fields, class_name: 'CategoryField' #, dependent: :destroy
+  accepts_nested_attributes_for :fields, allow_destroy: true
+end
 
-Rails Composer is supported by developers who purchase our RailsApps tutorials.
+class CategoryField < ActiveRecord::Base
+  FIELD_TYPES = %w(text check_box number)
 
-Problems? Issues?
------------
+  belongs_to :category
+end
+```
+#### Annotation:
+```
+# Table name: products
+#
+#  id          :integer          not null, primary key
+#  name        :string
+#  category_id :integer
+#  price       :integer
+#  properties  :text
+#
+# Indexes
+#
+#  index_products_on_category_id  (category_id)
+#
 
-Need help? Ask on Stack Overflow with the tag 'railsapps.'
+# Table name: categories
+#
+#  id             :integer          not null, primary key
+#  name           :string
+#  products_count :integer          default(0)
+#
 
-Your application contains diagnostics in the README file. Please provide a copy of the README file when reporting any issues.
-
-If the application doesn't work as expected, please [report an issue](https://github.com/RailsApps/rails_apps_composer/issues)
-and include the diagnostics.
-
-Ruby on Rails
--------------
-
-This application requires:
-
-- Ruby 2.2.4
-- Rails 4.2.4
-
-Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
-
-Getting Started
----------------
-
-Documentation and Support
--------------------------
-
-Issues
--------------
-
-Similar Projects
-----------------
-
-Contributing
-------------
-
-Credits
--------
-
-License
--------
+# Table name: category_fields
+#
+#  id          :integer          not null, primary key
+#  name        :string
+#  field_type  :string
+#  category_id :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_category_fields_on_category_id  (category_id)
+#
+```
