@@ -1,0 +1,6 @@
+.col-md-6
+  .form
+    = simple_form_for @category do |f|
+      = f.input :name
+      = f.button :submit, class: 'submit'
+    = link_to 'Cancel', @category, class: 'cancel'

@@ -1,0 +1,5 @@
+.col-md-6
+  h3 Name: #{@category.name}
+  h3 Products count: #{@category.products_count}
+  .actions
+    = render partial: 'actions', locals: { category: @category }

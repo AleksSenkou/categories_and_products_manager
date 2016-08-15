@@ -10,17 +10,12 @@
     tbody
       - @categories.each_with_index do |category, index|
         tr
-          th scope='row' = index
+          th scope='row' = index + 1
           th = link_to category.name, category
           th Options
           th = category.products_count
           th.actions
-            li
-              = link_to category, method: :edit do
-                = image_tag 'edit.png'
-            li
-              = link_to category, method: :delete
-                = image_tag 'delete.png'
+            = render partial: 'actions', locals: { category: category }
 .col-md-2.text-center
   = link_to new_category_path do
     = image_tag 'add.png', class: 'new-icon'
