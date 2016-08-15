@@ -18,6 +18,8 @@ group :development do
   gem 'spring'
   gem 'better_errors'
   gem 'bullet'
+  gem 'annotate'
+  gem 'quiet_assets'
 
   gem 'guard-bundler'
   gem 'guard-rails'
