@@ -36,6 +36,7 @@ group :development, :test do
   gem 'faker'
   gem 'populator'
   gem 'rspec-rails'
+  gem 'colorize'
 
   gem 'byebug'
 end
