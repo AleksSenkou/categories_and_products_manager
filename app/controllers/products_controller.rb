@@ -6,18 +6,21 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    session[:product_params] = {}
+    new_product_with_session_data
   end
 
   def create
-    @product = Product.new(product_params)
+    session[:product_params].deep_merge!(params[:product]) if params[:product]
 
-    if @product.save
-      flash[:success] = 'Product had been created successfully'
-      redirect_to @product
-    else
-      render :new
+    new_product_with_session_data
+
+    if @product.valid?
+      make_step
+      session[:product_step] = @product.current_step
     end
+
+    render_step
   end
 
   def show
@@ -49,6 +52,33 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :price, :category_id)
+    params.require(:product).permit(:name, :price, :category_id).tap do |whlist|
+      whlist[:properties] = params[:product][:properties]
+    end
+  end
+
+  def new_product_with_session_data
+    @product = Product.new(session[:product_params])
+    @product.current_step = session[:product_step]
+  end
+
+  def make_step
+    if params[:prev_button]
+      @product.previous_step
+    elsif @product.last_step?
+      @product.save
+    else
+      @product.next_step
+    end
+  end
+
+  def render_step
+    if @product.new_record?
+      render :new
+    else
+      session[:product_step] = session[:product_params] = nil
+      flash[:success] = 'Product had been created successfully'
+      redirect_to @product
+    end
   end
 end

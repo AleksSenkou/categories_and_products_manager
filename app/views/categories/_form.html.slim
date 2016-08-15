@@ -2,5 +2,10 @@
   .form
     = simple_form_for @category do |f|
       = f.input :name
+      h4 Options:
+      .form-group
+        = f.simple_fields_for :fields do |field|
+          = render 'field_fields', f: field
+        = link_to_add_association 'Add option', f, :fields
       = f.button :submit, class: 'submit'
     = link_to 'Back', @category, class: 'cancel'

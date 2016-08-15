@@ -1,0 +1,3 @@
+= f.simple_fields_for :properties, OpenStruct.new(@product.properties) do |builder|
+  - @product.fields.each do |field|
+    = render "products/fields/#{field.field_type}", field: field, f: builder

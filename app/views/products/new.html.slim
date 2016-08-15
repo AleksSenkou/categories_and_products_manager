@@ -1,1 +1,7 @@
-= render partial: 'form', object: @product
+.col-md-6
+  .form
+    = simple_form_for @product do |f|
+      = render "#{@product.current_step}_step", f: f
+      = f.button :submit, 'Prev', name: 'prev_button', class: 'prev-btn' unless @product.first_step?
+      = f.button :submit, 'Next', class: 'submit'
+    = link_to 'Cancel', @product, class: 'cancel'

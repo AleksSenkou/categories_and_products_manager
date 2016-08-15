@@ -11,6 +11,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'bootstrap-sass'
 gem 'pg'
 gem 'simple_form'
+gem 'cocoon'
 gem 'slim-rails'
 
 group :development do

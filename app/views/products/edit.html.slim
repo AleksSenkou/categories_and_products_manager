@@ -1,1 +1,7 @@
-= render partial: 'form', object: @product
+.col-md-6
+  .form
+    = simple_form_for @product do |f|
+      = render 'general_info_step', f: f
+      = render 'category_info_step', f: f
+      = f.button :submit, class: 'submit'
+    = link_to 'Cancel', @product, class: 'cancel'
