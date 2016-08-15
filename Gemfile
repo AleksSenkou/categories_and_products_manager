@@ -20,6 +20,7 @@ group :development do
   gem 'bullet'
   gem 'annotate'
   gem 'quiet_assets'
+  gem 'pry-remote'
 
   gem 'guard-bundler'
   gem 'guard-rails'
