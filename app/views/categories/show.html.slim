@@ -1,5 +1,12 @@
-.col-md-6
+.col-md-4
   h3 Name: #{@category.name}
   h3 Products count: #{@category.products_count}
   .actions
     = render partial: 'actions', locals: { category: @category }
+.col-md-4
+  h3 Products:
+  - if @products.present?
+    - @products.each do |product|
+      li = link_to product.name, product
+  - else
+    | There is NO assigned products

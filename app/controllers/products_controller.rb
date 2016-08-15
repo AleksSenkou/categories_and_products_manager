@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :load_product, only: %w(show edit update destroy)
+  before_action :load_product, except: %w(index new create)
 
   def index
     @products = Product.includes(:category).all
@@ -49,6 +49,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :price)
+    params.require(:product).permit(:name, :price, :category_id)
   end
 end
