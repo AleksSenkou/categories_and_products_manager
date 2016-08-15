@@ -1,0 +1,6 @@
+li
+  = link_to edit_product_path(product) do
+    = image_tag 'edit.png'
+li
+  = link_to product, method: :delete do
+    = image_tag 'delete.png'

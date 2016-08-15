@@ -10,5 +10,5 @@
 class Category < ActiveRecord::Base
   has_many :products, dependent: :nullify
 
-  validates :name, presence: true, uniqueness: true, length: { maximum: 40 }
+  validates :name, presence: true, uniqueness: true, length: { in: 2..40 }
 end
